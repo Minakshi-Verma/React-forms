@@ -4,30 +4,30 @@ const Stdform = () =>{
     return(
         <form>
             {/* input for username */}
-            <div>
+            <div className="form-group">
                 <label htmlFor="username">Username</label>
-                <input type="text" className="" id="username" />
+                <input type="text" className="form-control" id="username" />
 
             </div>
 
             {/* Input for email */}
-            <div>
+            <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input type="text" className="" id="email" />
+                <input type="text" className="form-control" id="email" />
                 
             </div>
 
             {/* Input for Password */}
-            <div>
+            <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <input type="password" className="" id="password" />
+                <input type="password" className="form-control" id="password" />
 
             </div>
 
             {/* Input for Repeat Password */}
-            <div>
+            <div className="form-group">
                 <label htmlFor="repeatPassword">Repeat Password</label>
-                <input type="password" className="" id="repeatPassword" />
+                <input type="password" className="form-control" id="repeatPassword" />
 
             </div>
 
