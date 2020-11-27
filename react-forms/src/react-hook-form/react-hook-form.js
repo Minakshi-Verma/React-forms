@@ -1,4 +1,6 @@
-import { useForm, ErrorMessage } from "react-hook-form";
+import { useForm} from "react-hook-form";
+import { ErrorMessage } from '@hookform/error-message';
+
 function ReactHookForm() {
 
     const {register, errors, handleSubmit, getValues, formState, reset} = useForm({
@@ -26,24 +28,61 @@ function ReactHookForm() {
                         }
                     })}
                     />
+                     <ErrorMessage errors={errors} name="username">
+                      {({messages})=>
+                        messages &&
+                        Object.entries(messages).map(([type,message])=>(
+                            <p className="help-block text-danger" key={type}>{message}</p>
+                        ))
+                      }
+                    </ErrorMessage>
                 </div>
 
                 {/* email input */}
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
-                    <input className="form-control" name="email" type="email"/>
+                    <input className="form-control" name="email" type="email"
+                    ref={register({
+                      required:"Email is required",
+                        pattern:{
+                            value:/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                            message:"Enter a valid email address"
+                        }
+                      }                        
+                    )}
+                    />
+                   
                 </div>
 
                 {/* Password input */}
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input className="form-control" name="password" type="password"/>
+                    <input className="form-control" name="password" type="password"
+                    ref={register({
+                        required:"Password is required",
+                        minLength:{
+                            value:8,
+                            message:"Password should be atleast 8 characters"
+                        }
+                    })}
+                    />
                 </div>
 
                 {/* ConfirmPassword input */}
                 <div className="form-group">
                     <label htmlFor="confirmPassword"> Confirm Password</label>
-                    <input className="form-control" name="confirmPassword" type="password"/>
+                    <input className="form-control" name="confirmPassword" type="password"
+                    ref={register({
+                        required:"Please confirm your password",
+                        validate: value => {
+                            if(value === getValues("password")){
+                                return true
+                            }else{
+                                return"The password do not match"
+                            }
+                        }
+                    })}
+                    />
                 </div>
             </form>
         </div>

@@ -4,4 +4,5 @@
 ## Form with formik and yup validation
 ## Form using React hooks
 #### npm install react-hook-form
+### npm install @hookform/error-message
 
