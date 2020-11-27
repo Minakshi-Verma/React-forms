@@ -1,8 +1,11 @@
-const ValidationMsg = (props) => {
-    console.log("I am validation props", props)
-    if(!props.valid){
+const ValidationMsg = ({valid,message}) => {
+    // console.log("I am validation props-message:", message)
+    // console.log("I am validation props-field:", name)
+    if(!valid){
         return(
-        <div>{props.message}</div>
+        <div>           
+            <p>Error message:{message}</p>
+        </div>
         ) 
   }
   return null

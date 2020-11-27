@@ -1,7 +1,7 @@
 
 import './App.css';
 // import components
-import Stdform from '../src/StandardForm/Stdform'
+import StdFormFunctional from '../src/StandardForm/StdFormFunctional'     //functional component
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <div className="row">
           <div className="col col-md-6">
             <h1>FORMS</h1>
-            <Stdform />
+            <StdFormFunctional />
           </div>
         </div>
       </div>

@@ -1,0 +1,1 @@
+// StdForm using class component
