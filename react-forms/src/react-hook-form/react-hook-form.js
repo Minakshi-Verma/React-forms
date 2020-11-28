@@ -1,3 +1,5 @@
+//React Hook Form is based on uncontrolled inputs, which means you don't need to change the input value via state via onChange
+
 import { useForm} from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 
@@ -7,10 +9,15 @@ function ReactHookForm() {
         validateCriteriaMode:"all",
         mode:"onChange"
     });
+
+    const onSubmit = (data,e)=>{
+        e.target.reset()
+        console.log(data)
+    }
     return (
         <div>
            <h5>react hooks forms</h5> 
-            <form>
+            <form onSubmit={handleSubmit(onSubmit)}>
 
                 {/* username input */}
                 <div className="form-group">
@@ -28,7 +35,7 @@ function ReactHookForm() {
                         }
                     })}
                     />
-                     <ErrorMessage errors={errors} name="username">
+                    <ErrorMessage errors={errors} name="username">
                       {({messages})=>
                         messages &&
                         Object.entries(messages).map(([type,message])=>(
@@ -51,6 +58,14 @@ function ReactHookForm() {
                       }                        
                     )}
                     />
+                    <ErrorMessage errors={errors} name="email">
+                      {({messages})=>
+                        messages &&
+                        Object.entries(messages).map(([type,message])=>(
+                            <p className="help-block text-danger" key={type}>{message}</p>
+                        ))
+                      }
+                    </ErrorMessage>
                    
                 </div>
 
@@ -66,6 +81,14 @@ function ReactHookForm() {
                         }
                     })}
                     />
+                      <ErrorMessage errors={errors} name="password">
+                      {({messages})=>
+                        messages &&
+                        Object.entries(messages).map(([type,message])=>(
+                            <p className="text-block text-danger" key={type}>{message}</p>
+                        ))
+                      }
+                    </ErrorMessage>
                 </div>
 
                 {/* ConfirmPassword input */}
@@ -83,7 +106,19 @@ function ReactHookForm() {
                         }
                     })}
                     />
+                      <ErrorMessage errors={errors} name="confirmPassword">
+                      {({messages})=>
+                        messages &&
+                        Object.entries(messages).map(([type,message])=>(
+                            <p className="text-block text-danger" key={type}>{message}</p>
+                        ))
+                      }
+                    </ErrorMessage>
                 </div>
+                <div className="btn-group">
+                    <button className="btn btn-primary btn-sm" type="submit" disabled={!formState.isValid} >Submit</button>
+                    <button className="btn btn-danger btn-sm mx-4 px-3" type="button" onClick={()=>reset()}>Reset</button>
+                </div>                  
             </form>
         </div>
     )

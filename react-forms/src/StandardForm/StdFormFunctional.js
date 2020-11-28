@@ -166,14 +166,14 @@ const repeatPasswordValidation = () =>{
 
             {/* Submit and reset button ==========================================*/}
             <div>
-            <button className="btn btn-primary btn-sm" type="submit" onClick={(e)=>submitHandler()}>Submit</button>
+            <button className="btn btn-primary btn-sm" type="submit" onClick={(e)=>submitHandler()} >Submit</button>
             <button className="btn btn-danger btn-sm mx-4 px-3" type="submit" onClick={(e)=>resetForm()}>Reset</button>
             </div>
 
             <p>Username:{username}</p>
             <p>Email:{email}</p>
             <p>Password:{password}</p>
-            <p>Repeat Password:{repeatPassword}</p>
+            <p>Confirm Password:{repeatPassword}</p>
         </form>
     )
 }
