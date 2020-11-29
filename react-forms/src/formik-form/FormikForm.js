@@ -16,7 +16,7 @@ export default class FormikForm extends Component {
         this.setState({
             userName: values.userName,
             email: values.email,
-            passsword: values.password,
+            password: values.password,
             confirmPassword: values.confirmPassword
         })
     }
@@ -38,7 +38,7 @@ export default class FormikForm extends Component {
             .required("Password is required"),
 
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password'), null], "password don't match")
+            .oneOf([Yup.ref('password'), null], "password don't match"),
 
     })
     render() {
@@ -47,11 +47,18 @@ export default class FormikForm extends Component {
                 <h5>Formik form with validation using yup</h5>
                 {/* we will use "isSubmitting" attr when creating the button disabled */}
                 <Formik
-                    initialValues={{username:'', email:'', password:'', confirmPasssword:'', isSubmitting:"true" }} 
+                    initialValues={{username:'', email:'', password:'', confirmPassword:'', isSubmitting:"true" }} 
                     validationSchema={this.validationSchema}
                     onSubmit={(values, {setSubmitting, resetForm})=>{
                         setTimeout(()=>{
                             console.log(values);
+                            // updating the state to display the updated data on the UI after form submission
+                            this.setState({
+                                userName: values.userName,
+                                email:values.email,
+                                password: values.password,
+                                confirmPassword: values.confirmPassword
+                            })
                             setSubmitting(true)
                             resetForm();
                             setSubmitting(false)
@@ -81,7 +88,9 @@ export default class FormikForm extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.userName} 
-                                    />
+                                />
+                                {/* Error message to display */}
+                                <span className="help-block text-danger">{errors.userName && touched.userName && errors.userName}</span>
                             </div>
 
                              {/* Input for email */}
@@ -94,7 +103,9 @@ export default class FormikForm extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.email}
-                                    />
+                                />
+                                {/* Error message to display */}
+                                <span className="help-block text-danger">{errors.email && touched.email && errors.email}</span>
                             </div>
 
                               {/* Input for password */}
@@ -107,7 +118,9 @@ export default class FormikForm extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.password}
-                                    />
+                                />
+                                {/* Error message to display */}
+                                <span className="help-block text-danger">{errors.password && touched.password && errors.password}</span>
                             </div>
 
                              {/* Input for confirm password */}
@@ -120,13 +133,26 @@ export default class FormikForm extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}   //handleBlur is useful for when you need to track whether an input has been touched or not
                                     value={values.confirmPasssword} 
-                                    />
-                            </div>
-
+                                />
+                                {/* Error message to display */}
+                                <span className="help-block text-danger">{errors.confirmPassword && touched.confirmPassword && errors.confirmPassword}</span>
+                            </div> 
+                            <div className="btn-group">
+                                <button className="btn btn-primary" type="submit" disabled={isSubmitting}>Submit</button>
+                                <button 
+                                    disabled={!dirty}
+                                    className="btn btn-danger"
+                                    type="button"
+                                    onClick={handleReset}
+                                >Reset</button>
+                            </div>                               
                         </form>
                     )}
                 </Formik>
-                
+                    <p>Username:{this.state.userName}</p>
+                    <p>Email:{this.state.email}</p>
+                    <p>Password:{this.state.password}</p>
+                    <p>Confirm Password:{this.state.confirmPassword}</p>                
             </div>
         )
     }
