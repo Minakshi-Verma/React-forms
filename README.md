@@ -6,3 +6,6 @@
 #### npm install react-hook-form
 ### npm install @hookform/error-message
 
+### npm install formik --save
+### npm install yup --save
+

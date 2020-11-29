@@ -17,13 +17,13 @@ export default class StdFormClass extends Component {
 
     //form Validation 
     formValidation = () =>{
-        const {usernmeValid,emailValid, passwordValid, repeatPasswordValid} = this.state
+        const {usernameValid,emailValid, passwordValid, repeatPasswordValid} = this.state
         // if(usernmeValid && emailValid && passwordValid && repeatPasswordValid){
             this.setState({formValid:true})
         // }
 
         this.setState({
-            formValid:usernmeValid &&emailValid && passwordValid && repeatPasswordValid
+            formValid:usernameValid &&emailValid && passwordValid && repeatPasswordValid
         })
     }
 
@@ -54,7 +54,7 @@ export default class StdFormClass extends Component {
         errMsg.email="Invalid email format"
         console.log("errmessage.email:", errMsg.email)  
     }
-    this.setState({emailValid, errMsg})   
+    this.setState({emailValid, errMsg}, this.formValidation)   
     console.log("errmessage.email:", errMsg)  
 }
 
@@ -70,7 +70,7 @@ export default class StdFormClass extends Component {
         console.log("passwordfailed", passwordValid)
     }
     console.log("errmessage.password", errMsg)
-    this.setState({passwordValid, errMsg}, )
+    this.setState({passwordValid, errMsg},this.formValidation )
     // console.log("errmessage.password", errMsg)
 }
 
@@ -86,28 +86,30 @@ export default class StdFormClass extends Component {
         console.log("passwordrepeatfailed", repeatPasswordValid)       
     }
     
-    this.setState({repeatPasswordValid, errMsg})
+    this.setState({repeatPasswordValid, errMsg}, this.formValidation)
     console.log("errmessage.repeatPassword", errMsg)
-    console.log("errmessage.validity", repeatPasswordValid)
+    console.log("confirm password validity", repeatPasswordValid)
 }
     
   //submitHandler
     submitHandler =(e)=>{
+        console.log("RESET")
     e.preventDefault()
 }
 
  //Reset function to reset the state to initial state================
     resetForm =(e)=>{
-    e.preventDefault()
+    // e.preventDefault()
     console.log("RESET")
     this.setState({
-        username: "x", usernameValid: false,
+        username: "", usernameValid: false,
         email:"", emailValid: false,
         password: "", passwordValid: false,
         repeatPassword: "", repeatPasswordValid: false,
         formValid: false,
         errMsg: {}
     })
+    
 }
 
     render() {
@@ -155,8 +157,8 @@ export default class StdFormClass extends Component {
 
             {/* Submit and reset button ==========================================*/}
             <div>
-            <button className="btn btn-primary btn-sm" type="submit" onClick={(e)=>this.submitHandler} >Submit</button>
-            <button className="btn btn-danger btn-sm mx-4 px-3" type="submit" onClick={(e)=>this.resetForm}>Reset</button>
+            <button className="btn btn-primary btn-sm" type="submit" disabled={!this.state.formValid} >Submit</button>
+            <button className="btn btn-danger btn-sm mx-4 px-3"  onClick={this.resetForm=this.resetForm.bind(this)}>Reset</button>
             </div>
 
             <p>Username:{this.state.username}</p>

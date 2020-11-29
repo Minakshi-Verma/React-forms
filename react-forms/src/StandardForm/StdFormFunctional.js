@@ -1,6 +1,6 @@
 //StdForm using functional component
 
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 
 //import ValidationMsg component
 import ValidationMsg from './ValidationMsg';
@@ -18,7 +18,7 @@ const [form, setForm] = useState({
 let {username, usernameValid, email, emailValid, password, passwordValid, repeatPassword, repeatPasswordValid, formValid,errMsg} = form
 
 
-//Input validation
+
 //Form validation
 
 // const formValidation = () =>{  
@@ -40,39 +40,48 @@ const formValidation = () =>{
         console.log("form is validated", formValid)
 }
 
+//===============================Input validation=====================================
+//username validation==================
 
-//username validation===========================================
-const userValidation = () =>{   
-    let usernameValid= true
-    errMsg={...errMsg}
-    
-    if(username.length<6 || username.length>15){
-        usernameValid= false
-        errMsg.username = "Username should have 6-15 character"        
-    }   
-    setForm({usernameValid, errMsg}, formValidation())    
-    console.log("errmessage.username:", errMsg)   
+    const userValidation = () =>{     
+        const {username} = form   
+        let usernameValid= true
+        errMsg={...errMsg}
+        console.log("user==",username)
+        if(username.length<6 || username.length>15){
+            usernameValid= false
+            errMsg.username = "Username should have 6-15 character"        
+        }   
+        setForm({usernameValid, errMsg})    
+        console.log("errmessage.username:", errMsg)   
     }
-  
 
-//email validation===================================================
-const emailValidation =()=>{   
-    let emailValid=true
-    errMsg={...errMsg}
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    // if(email.length<6){
-        emailValid=false;
 
-        errMsg.email="Invalid email format"
-        console.log("errmessage.email:", errMsg.email)  
+//email validation=======================
+let emailValidation
+
+useEffect(()=>{
+    const emailValidation =()=>{
+        let {email, errMsg} = form    
+        let emailValid=true
+        errMsg={...errMsg}
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){             
+            emailValid=false;    
+            errMsg.email="Invalid email format"            
+        }
+        setForm({emailValid, errMsg})
+        console.log("errmessage.emailllllll=======>>:", errMsg)  
+        console.log("email validityyyyy======>>:", emailValid)  
     }
-    setForm({emailValid, errMsg}, formValidation())   
-    console.log("errmessage.email:", errMsg)  
-}
+    return ()=>emailValidation()
 
-//password validation====================================================
+},[email])
+
+
+//password validation======================
 
 const passwordValidation = () =>{ 
+    // let {password, errMsg} = form   
     let passwordValid= true
     errMsg={...errMsg}
 
@@ -82,11 +91,11 @@ const passwordValidation = () =>{
         console.log("passwordfailed", passwordValid)
     }
     console.log("errmessage.password", errMsg)
-    setForm({passwordValid, errMsg}, formValidation())
+    setForm({passwordValid, errMsg})
     // console.log("errmessage.password", errMsg)
 }
 
-//repeat password Validation==============================================
+//repeat password Validation================
 
 const repeatPasswordValidation = () =>{   
     let repeatPasswordValid= true
@@ -98,7 +107,7 @@ const repeatPasswordValidation = () =>{
         console.log("passwordrepeatfailed", repeatPasswordValid)       
     }
     
-    setForm({repeatPasswordValid, errMsg}, formValidation())
+    setForm({repeatPasswordValid, errMsg})
     console.log("errmessage.repeatPassword", errMsg)
     console.log("errmessage.validity", repeatPasswordValid)
 }
@@ -124,27 +133,27 @@ const repeatPasswordValidation = () =>{
            
     return(
         <form>
-            {/* input for username=============================================== */}
+            {/* input for username===================================*/}
             <div className="form-group">
                 <label htmlFor="username">Username</label>
-                <input type="text" className="form-control" id="username"  onChange={(e)=>setForm({...form, username: e.target.value},userValidation())} />
+                <input type="text" className="form-control" id="username"  onChange={(e)=>setForm({ ...form, username: e.target.value},userValidation())} />
                
                 <span><ValidationMsg valid={usernameValid} 
                 // message={errMsg.username} 
                 /></span>
             </div>
 
-            {/* Input for email ==================================================*/}
+            {/* Input for email ========================================*/}
             <div className="form-group" >
                 <label htmlFor="email">Email</label>
                 <input type="text" className="form-control" id="email"
                 onChange={(e)=>setForm({...form, email: e.target.value}, emailValidation)}  />
                 <span><ValidationMsg valid={emailValid} 
-                // message={errMsg.email}  
+                message={errMsg.email}  
                 /></span>
             </div>
 
-            {/* Input for Password =============================================*/}
+            {/* Input for Password ======================================*/}
             <div className="form-group">
                 <label htmlFor="password">Password</label>
                 <input type="password" className="form-control" id="password" 
@@ -154,7 +163,7 @@ const repeatPasswordValidation = () =>{
                 /></span>
             </div>
 
-            {/* Input for Repeat Password======================================== */}
+            {/* Input for Repeat Password================================= */}
             <div className="form-group">
                 <label htmlFor="repeatPassword">Repeat Password</label>
                 <input type="password" className="form-control" id="repeatPassword" 
@@ -164,7 +173,7 @@ const repeatPasswordValidation = () =>{
                 /></span>
             </div>
 
-            {/* Submit and reset button ==========================================*/}
+            {/* Submit and reset button ===================================*/}
             <div>
             <button className="btn btn-primary btn-sm" type="submit" onClick={(e)=>submitHandler()} >Submit</button>
             <button className="btn btn-danger btn-sm mx-4 px-3" type="submit" onClick={(e)=>resetForm()}>Reset</button>

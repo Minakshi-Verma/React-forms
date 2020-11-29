@@ -4,6 +4,8 @@ import './App.css';
 import StdFormFunctional from '../src/StandardForm/StdFormFunctional'     //functional component
 import ReactHookForm from './react-hook-form/react-hook-form'
 import StdFormClass from './StandardForm/StdFormClass';
+import FormikForm from './formik-form/FormikForm';
+
 function App() {
   return (
     <div className="App">
@@ -19,9 +21,13 @@ function App() {
           </div>
         </div>
         <div className="row">
-          <div className="col col-md-6 border m-2">
+          <div className="col col-md-5 border m-4">
             <h1>REACT HOOK FORM</h1>
             <ReactHookForm />            
+          </div>
+          <div className="col col-md-5 border m-4">
+            <h1>FORMIK FORM WITH YUP</h1>
+            <FormikForm />            
           </div>
         </div>
 
