@@ -5,22 +5,71 @@ import * as Yup from 'yup';
 export default class FormikForm extends Component {
 
     state = {
-        username:"",
+        userName:"",
         email:"",
         password:"",
         confirmPassword: "",
         isValid: false
     }
+
+    handleChange = (values)=>{
+        this.setState({
+            userName: values.userName,
+            email: values.email,
+            passsword: values.password,
+            confirmPassword: values.confirmPassword
+        })
+    }
+
+    // To validate the formik form using Yup---We need to create the validation schema with yup( validate schema would be a Yup-object that we need to shape and Yup api has its own methods for validation that we will use( like .min(), .max(), .required() etc))
+
+    validationSchema = Yup.object().shape({
+        userName: Yup.string()
+            .min(6, "Username should be between 6 and 15 characters")
+            .max(15, "Username should be between 6 and 15 characters")
+            .required("Username is required"),
+
+        email: Yup.string()
+            .email("Invalid email address")
+            .required("Email is required"),
+
+        password: Yup.string()
+            .min(8, "Should be atleast 8 charaters")
+            .required("Password is required"),
+
+        confirmPassword: Yup.string()
+            .oneOf([Yup.ref('password'), null], "password don't match")
+
+    })
     render() {
         return (
             <div>
                 <h5>Formik form with validation using yup</h5>
+                {/* we will use "isSubmitting" attr when creating the button disabled */}
                 <Formik
-                    initialValues={{username:'', email:'', password:'', confirmPasssword:'', isSubmitting:"true" }}
+                    initialValues={{username:'', email:'', password:'', confirmPasssword:'', isSubmitting:"true" }} 
+                    validationSchema={this.validationSchema}
+                    onSubmit={(values, {setSubmitting, resetForm})=>{
+                        setTimeout(()=>{
+                            console.log(values);
+                            setSubmitting(true)
+                            resetForm();
+                            setSubmitting(false)
+                        }, 400)
+                    }}
                 >
-                    {/* We call Api and attributes in the following object  */}
-                    {({})=>(
-                        <form noValidate>
+                    {/* We call formik Api here and  use the methods and attributes (choose what is needed for validation) in the following object (here we are using the following) */}
+                    {({values,
+                    errors,
+                    touched,
+                    dirty,
+                    isSubmitting,
+                    handleChange,
+                    handleBlur,
+                    handleReset,
+                    handleSubmit
+                    })=>(
+                        <form onSubmit = {handleSubmit} noValidate>
 
                             {/* Input for username */}
                             <div className="form-group">
@@ -28,7 +77,11 @@ export default class FormikForm extends Component {
                                 <input 
                                     className="form-control" 
                                     type="text" 
-                                    name="userName" />
+                                    name="userName"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.userName} 
+                                    />
                             </div>
 
                              {/* Input for email */}
@@ -37,7 +90,11 @@ export default class FormikForm extends Component {
                                 <input 
                                     className="form-control" 
                                     type="email" 
-                                    name="email" />
+                                    name="email" 
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.email}
+                                    />
                             </div>
 
                               {/* Input for password */}
@@ -46,7 +103,11 @@ export default class FormikForm extends Component {
                                 <input 
                                     className="form-control" 
                                     type="password" 
-                                    name="password" />
+                                    name="password"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.password}
+                                    />
                             </div>
 
                              {/* Input for confirm password */}
@@ -55,7 +116,11 @@ export default class FormikForm extends Component {
                                 <input 
                                     className="form-control" 
                                     type="password" 
-                                    name="confirmPassword" />
+                                    name="confirmPassword"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}   //handleBlur is useful for when you need to track whether an input has been touched or not
+                                    value={values.confirmPasssword} 
+                                    />
                             </div>
 
                         </form>
