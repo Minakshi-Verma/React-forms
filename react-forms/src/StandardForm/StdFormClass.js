@@ -36,7 +36,7 @@ export default class StdFormClass extends Component {
 
         if(username.length<6 || username.length>15){
             usernameValid= false
-            errMsg.username="Username should have charatcetrs more thann 6 and less than 15"
+            errMsg.username="Username should have  more than 6 and less than 15 characters"
         }
         this.setState({usernameValid, errMsg }, this.formValidation)
         console.log("errorMessage.username:", errMsg)
@@ -93,14 +93,15 @@ export default class StdFormClass extends Component {
     
   //submitHandler
     submitHandler =(e)=>{
-        console.log("RESET")
-    e.preventDefault()
+    alert("form submitted")
+    e.preventDefault()  
 }
 
  //Reset function to reset the state to initial state================
-    resetForm =(e)=>{
-    // e.preventDefault()
-    console.log("RESET")
+    resetForm =(e)=>{ 
+        // e.stopPropagation()
+        // alert("form reset  complete")  
+        
     this.setState({
         username: "", usernameValid: false,
         email:"", emailValid: false,
@@ -114,7 +115,7 @@ export default class StdFormClass extends Component {
 
     render() {
         return (
-            <form>
+            <form onSubmit={this.submitHandler}>
                  {/* input for username=============================================== */}
             <div className="form-group">
                 <label htmlFor="username">Username</label>
@@ -158,7 +159,7 @@ export default class StdFormClass extends Component {
             {/* Submit and reset button ==========================================*/}
             <div>
             <button className="btn btn-primary btn-sm" type="submit" disabled={!this.state.formValid} >Submit</button>
-            <button className="btn btn-danger btn-sm mx-4 px-3"  onClick={this.resetForm=this.resetForm.bind(this)}>Reset</button>
+            <button className="btn btn-danger btn-sm mx-4 px-3"  onClick={this.resetForm}>Reset</button>
             </div>
 
             <p>Username:{this.state.username}</p>

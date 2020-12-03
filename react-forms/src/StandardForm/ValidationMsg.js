@@ -1,15 +1,15 @@
-const ValidationMsg = ({valid,message}) => {
-    console.log("I am validation props-message:", message)
+const ValidationMsg = (props) => {
+    console.log("I am validation props-message:", props) 
  
-    if(!valid){
+    if(!props.valid){
         return(
         <div>           
-            <p>Error message:{message}</p>
+            <p className="help-block text-danger">{props.message}</p>
         </div>
         ) 
   }
-  return null
+  return "valid"
     
 }
 
-export default ValidationMsg
+export default ValidationMsg;
