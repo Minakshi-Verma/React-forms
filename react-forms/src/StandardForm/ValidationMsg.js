@@ -1,5 +1,5 @@
 const ValidationMsg = (props) => {
-    console.log("I am validation props-message:", props) 
+    console.log("I am validation prop:", props) 
  
     if(!props.valid){
         return(
