@@ -1,6 +1,6 @@
 //StdForm using functional component
 
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 
 //import ValidationMsg component
 import ValidationMsg from './ValidationMsg';
@@ -8,20 +8,26 @@ import ValidationMsg from './ValidationMsg';
 const StdFormFunctional = () =>{
 const [form, setForm] = useState({
     username: "", 
+    // userValid:false,  // not taking separate inputValid attr. but can be used and updated using useRef() hook
     email:"", 
     password: "", 
     repeatPassword: "", 
-    inputValid: {},   
-    formValid: {},         
-    // formValid:false,
+    inputValid: {},   // used a common validity object, to which we would add validity attr for different inputs in their validation function
+    formValid: {},   
     errMsg: {} 
 });
 
-let {username, email, password, repeatPassword, inputValid, formValid,errMsg} = form
+////One can use useRef hook, to get the reference of state, and destrure the current out of it. Now use current.attribute anywhere in the code and update tehe state
+// const refstate= useRef(form)
+// let {current} = refstate
+// console.log("cccurent", current)
+
+let {username,email, password, repeatPassword, inputValid, formValid,errMsg} = form
 
 //Form validation
 const formValidation = () =>{
     // let {formValid} = form
+    
     formValid.validity=false
     
     if(inputValid.user && inputValid.email && inputValid.password && inputValid.repeat){
@@ -40,18 +46,25 @@ const formValidation = () =>{
 
     const userValidation = () =>{    
         let {username} = form ; 
+        // current.userValid= true //use this, if want to go with useRef() hook reference      
         inputValid.user= true;       
         errMsg.username= "";      
       
-        if(username.length<6 || username.length>15){
-            inputValid.user= false
+        if(username.length<6 || username.length>15){          
+            // userValid=false   // you can't update the state by updating the userValid value inside this fx
+            // current.userValid= false   //we can update the state reference(current.userValid) to update the form state
+            inputValid.user= false    //Another option is, take the state as a object and update the key. This way you can update the state for that particular attribute
             errMsg.username = "Username should have 6-15 characters"              
         }
     
-        setForm({...form, inputValid, errMsg}, formValidation())    
-        console.log("usernameValid===>:", inputValid)           
+        setForm({...form, inputValid, errMsg}, formValidation())   //redundant line of code 
+        console.log("usernameValid===>:", inputValid)              
     }
     
+    // console.log("Is form uservalid????", current.userValid) 
+    // console.log("userValid", userValid)
+    // console.log("form.userValid", form.userValid)
+    console.log("inputValid.user", inputValid.user)
 //email validation=======================
 // let emailValidation
 
